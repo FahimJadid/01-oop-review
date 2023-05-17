@@ -369,3 +369,44 @@ multiplyBy2.toString(); //Where is this method?
 Function.prototype; // {toString : FUNCTION, call : FUNCTION, bind : FUNCTION}
 multiplyBy2.hasOwnProperty('score'); // Where's this function?
 Function.prototype.__proto__; // Object.prototype {hasOwnProperty: FUNCTION}
+
+// Subclassing
+
+// Subclassing in solution 2
+
+function userCreator(name, score) {
+  const newUser = Object.create(userFunctions);
+  newUser.name = name;
+  newUser.score = score;
+  return newUser;
+}
+userFunctions = {
+  sayName: function () {
+    console.log('I am ' + this.name);
+  },
+  increment: function () {
+    this.score++;
+  },
+};
+
+const user1 = userCreator('Phil', 5);
+user1.sayName();
+
+function paidUserCreator(paidName, paidScore, accountBalance) {
+  const newPaidUser = userCreator(paidName, paidScore);
+  Object.setPrototypeOf(newUserpaid, paidUserFunctions);
+  newPaidUser.accountBalance = accountBalance;
+  return newPaidUser;
+}
+
+const paidUserFunctions = {
+  increaseBalance: function () {
+    this.accountBalance++;
+  },
+};
+
+Object.setPrototypeOf(paidUserFunctions, userFunctions);
+const paidUser1 = paidUserCreator('Alyssa', 8, 25);
+
+paidUser1, increaseBalance();
+paidUser1.sayName();
